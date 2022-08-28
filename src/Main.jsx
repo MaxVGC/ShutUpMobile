@@ -7,7 +7,6 @@ const Main = () => {
         <View style={styles.View}>
             <StatusBar backgroundColor="#121212" />
             <Image style={styles.image} source={require('../assets/x.png')} />
-            <Text style={{ color: '#fff', fontSize: 34, fontWeight: 'bold' }}>¡Bienvenido a ShutUp!</Text>
         </View>
     )
 }

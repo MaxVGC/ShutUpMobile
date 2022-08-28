@@ -1,8 +1,8 @@
-import { StyleSheet, View } from 'react-native';
-import Main from './src/Main.jsx'
+import React from 'react'
+import AppNavigation from '@navigation/AppNavigation'
 
-export default function App() {
-  return (
-      <Main/>
-  );
+function app(){
+  return  <AppNavigation/>
 }
+
+export default app;
