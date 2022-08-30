@@ -1,21 +1,21 @@
 import React from 'react'
 import { Colors } from '@styles/General'
 import { View, Text, Image, TouchableOpacity, StyleSheet, BackHandler, ScrollView, TextInput, Dimensions } from 'react-native'
+import {registerUser} from '@meFirebase/databaseOperations'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable'
 import Icon from 'react-native-vector-icons/Ionicons';
-import SoundPlayer from 'react-native-sound-player'
-
+import { async } from '@firebase/util'
 
 export default function RegisterScreen({ navigation }) {
     const [data, setData] = React.useState({
-        nameUser: null,
-        lastNameUser: null,
-        userName: null,
-        password: null,
-        phoneNumber: null,
-        confirmPassword: null
+        name: null,
+        email:null,
+        phone:null,
+        username:null,
+        password:null,
+        confirmPassword:null,
     });
     const [alert, toogleAlert] = React.useState(false);
 
@@ -24,28 +24,34 @@ export default function RegisterScreen({ navigation }) {
         return true;
     }
 
+    async function prueba2(){
+        await registerUser(data);
+    }
+
     function checkData() {
         var aux = true;
-        if (data.nameUser == null || data.nameUser.length == 0) {
+        if (data.name == null || data.name.length == 0) {
             aux = false;
         }
-        if (data.lastNameUser == null || data.lastNameUser.length == 0) {
+        if (data.email == null || data.email.length == 0) {
             aux = false;
         }
-        if (data.userName == null || data.userName.length == 0) {
+        if (data.phone == null || data.phone.length == 0) {
             aux = false;
         }
-        if (data.password == null || data.password.length == 0) {
+        if (data.username == null || data.username.length == 0) {
+            aux = false;
+        }
+        if (data.password == null || data.password.length == 0 || data.password.length < 8) {
             aux = false;
         }
         if (data.password != data.confirmPassword) {
             aux = false;
         }
         if (!aux) {
-            SoundPlayer.playSoundFile('prueba', 'wav')
-            toogleAlert(true)
+            toogleAlert(true);
         } else {
-            console.log("paso")
+            prueba2();
         }
     }
 
@@ -65,13 +71,13 @@ export default function RegisterScreen({ navigation }) {
             <View style={{ width: "100%" }}>
                 <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>Nombre completo</Text>
                 <TextInput
-                    onChangeText={e => setData({ ...data, nameUser: e })}
+                    onChangeText={e => setData({ ...data, name: e })}
                     autoCapitalize="words"
                     style={Styles.Input}
                 />
                 <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>Correo</Text>
                 <TextInput
-                    onChangeText={e => setData({ ...data, lastNameUser: e })}
+                    onChangeText={e => setData({ ...data, email: e })}
                     keyboardType="email-address"
                     autoCapitalize='none'
 
@@ -79,13 +85,13 @@ export default function RegisterScreen({ navigation }) {
                 />
                 <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>Numero de telefono</Text>
                 <TextInput
-                    onChangeText={e => setData({ ...data, lastNameUser: e })}
+                    onChangeText={e => setData({ ...data, phone: e })}
                     keyboardType="number-pad"
                     style={Styles.Input}
                 />
                 <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>Nombre de usuario</Text>
                 <TextInput
-                    onChangeText={e => setData({ ...data, userName: e })}
+                    onChangeText={e => setData({ ...data, username: e })}
                     autoCapitalize='none'
                     style={Styles.Input}
                 />
@@ -113,12 +119,16 @@ export default function RegisterScreen({ navigation }) {
                         <Text style={Styles.Text}>¡Vamos!</Text>
                     </LinearGradient>
                 </TouchableOpacity>
+                
             </View>
             {alert ? (
                 <Animatable.View style={Styles.AlertContainer} animation="bounceIn">
                     <View style={Styles.Alert}>
                         <TouchableOpacity style={{}} onPress={() => { toogleAlert(false) }}>
-                            <Icon style={{alignItems:"center",justifyContent:"center"}} name="close-circle-outline" size={150} color="#d50000" />
+                            <View style={{ alignItems: "center", transform: [{ translateX: 5 }] }}>
+                                <Icon style={{ marginBottom: 20 }} name="close-circle-outline" size={150} color="#d50000" />
+                            </View>
+                            <Text style={{ ...Styles.Text, textAlign: "center", marginBottom: 20 }}>Ha ocurrido un error, revisa los datos e intenta nuevamente</Text>
                             <LinearGradient
                                 colors={[Colors.Azul_1, Colors.Azul_2]}
                                 style={{ ...Styles.Button, alignItems: "center" }}
@@ -141,7 +151,6 @@ const Styles = StyleSheet.create({
     },
     Container: {
         backgroundColor: "#121212",
-
     },
     ScrollView: {
         flexDirection: 'column',
@@ -175,7 +184,6 @@ const Styles = StyleSheet.create({
     },
     Alert: {
         width: (Dimensions.get("window").width * (0.62)),
-        height: (Dimensions.get("window").width * (0.62)),
         backgroundColor: "#262626",
         borderRadius: 20,
         justifyContent: "center",

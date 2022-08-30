@@ -49,7 +49,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={{ color: "#fff", fontSize: 34 }}>Inicia sesión</Text>
         </View>
         <View style={styles.Form}>
-          <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>ShutId o Numero de telefono</Text>
+          <Text style={{ color: "#fff", opacity: 0.7, marginBottom: 10 }}>ShutId o Correo</Text>
           <TextInput
             onChangeText={e => updateData(0, e)}
             style={styles.Input}
