@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, BackHandler, View, ScrollView, TouchableOpacity, StyleSheet, Image, Dimensions, Button, ImageBackground, TextInput,Alert } from 'react-native'
+import { Text, BackHandler, View, ScrollView, TouchableOpacity, StyleSheet, Image, Dimensions, Button, ImageBackground, TextInput, Alert } from 'react-native'
 import * as Animatable from 'react-native-animatable'
 import { Colors } from '@styles/General'
 import { LinearGradient } from 'expo-linear-gradient';
@@ -22,19 +22,19 @@ export default function LoginScreen({ navigation }) {
   }
 
   React.useEffect(() => {
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backPressed)
+    BackHandler.addEventListener('hardwareBackPress', backPressed)
   }, [])
 
-  function backPressed(){
+  function backPressed() {
     Alert.alert(
       'Exit App',
       'Do you want to exit?',
       [
-        {text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'Yes', onPress: () => BackHandler.exitApp()},
+        { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        { text: 'Yes', onPress: () => BackHandler.exitApp() },
       ],
       { cancelable: false });
-      return true;
+    return true;
   }
 
 
