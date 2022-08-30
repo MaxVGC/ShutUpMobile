@@ -11,4 +11,5 @@ const SplashScreenStyle=StyleSheet.create({
     }
 })
 
+
 export {SplashScreenStyle,Colors}
